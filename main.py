@@ -44,7 +44,7 @@ def parse_user_inputs():
     args = parser.parse_args()
 
     customer_id = args.customer_id
-    item_name = str(args.item_name).lower()
+    item_name = item_name = str(args.item_name).lower() if args.item_name is not None else None
     item_counts = args.item_counts
     item_price = args.item_price
     check_order_args = args.check_order
@@ -250,6 +250,10 @@ def process_delete_order():
     table_name = customer_id
 
     try:
+        if item_name is None:
+            print('Masukkan nama item yang ingin dihapus.')
+            return
+
         check_existing_row()
 
         c.execute(f"DELETE FROM {table_name} WHERE item_name = ?", [item_name])
